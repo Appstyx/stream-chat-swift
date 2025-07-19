@@ -131,10 +131,11 @@ open class StreamAudioSessionConfigurator: AudioSessionConfiguring {
         }
     }
     
-    private func isBluetoothConnected() -> Bool {
+    private func isExternalAudioConnected() -> Bool {
         return audioSession.currentRoute.outputs.contains(where: { output in
             switch output.portType {
-            case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP:
+            case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP,
+                 .headphones, .headsetMic:
                 return true
             default:
                 return false
@@ -145,9 +146,9 @@ open class StreamAudioSessionConfigurator: AudioSessionConfiguring {
     // MARK: - Helpers
 
     private func activateSession() throws {
-        // Check if Bluetooth is connected
-        if isBluetoothConnected() {
-            // Let system handle routing to Bluetooth
+        // Check if Bluetooth or headphones are connected
+        if isExternalAudioConnected() {
+            // Let system handle routing to Bluetooth/headphones
             try audioSession.overrideOutputAudioPort(.none)
         } else {
             // Force output to bottom speaker
