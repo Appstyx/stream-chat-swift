@@ -8,6 +8,7 @@ import AVFoundation
 /// A simple protocol that abstracts the usage of AVAudioSession
 protocol AudioSessionProtocol {
     var category: AVAudioSession.Category { get }
+    var currentRoute: AVAudioSessionRouteDescription { get }
 
     func setCategory(
         _ category: AVAudioSession.Category,
